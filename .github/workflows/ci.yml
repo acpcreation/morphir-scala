@@ -166,6 +166,11 @@ jobs:
             out/morphir/${{matrix.scala}}/**/native/
           key: ${{ runner.os }}-mill-native-${{matrix.java}}-${{ matrix.scala }}-${{ github.sha }}-${{ hashFiles('out') }}
 
+
+      - name: Scan Here?
+        run: |
+          echo "Scan here?!?!"
+
   # publish-sonatype:
   #   # when in master repo: all commits to main branch and all additional tags
   #   if: github.repository == 'finos/morphir-scala' && ( github.ref == 'refs/heads/main' || (github.ref != 'refs/heads/main' && startsWith( github.ref, 'refs/tags/') ) )
