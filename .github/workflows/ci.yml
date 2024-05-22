@@ -3,6 +3,11 @@ name: CI
 env:
   JDK_JAVA_OPTIONS: -XX:+PrintCommandLineFlags -Xss10M # JDK_JAVA_OPTIONS is _the_ env. variable to use for modern Java
   JVM_OPTS: -XX:+PrintCommandLineFlags -Xss10M # for Java 8 only (sadly, it is not modern enough for JDK_JAVA_OPTIONS)
+  SonatypeUrl: 'https://finos.sonatype.app/platform/'
+  SonatypeAppId: morphir-scala
+  SonatypeStage: build
+  SonatypeScanTarget: '.'
+  ExcludeDirectory: " -X -D dirExcludes='**/website/, **/docs/, **/.*'"
 
 on:
   pull_request:
@@ -45,6 +50,16 @@ jobs:
           ./build.sh install
       - name: Lint code
         run: ./build.sh lint
+
+      - name: Sonatype Lifecycle SCA Scan
+        uses: sonatype-nexus-community/iq-github-action@master
+        with:
+          username: ${{ secrets.sonatype_user }}
+          password: ${{ secrets.sonatype_password }}
+          serverUrl: ${{ env.SonatypeUrl }}
+          applicationId: ${{ env.SonatypeAppId }}
+          stage: ${{ env.SonatypeStage }}
+          target: ${{ env.SonatypeScanTarget }} ${{ env.ExcludeDirectory }}
 
   test-js:
     runs-on: ubuntu-latest
@@ -166,10 +181,6 @@ jobs:
             out/morphir/${{matrix.scala}}/**/native/
           key: ${{ runner.os }}-mill-native-${{matrix.java}}-${{ matrix.scala }}-${{ github.sha }}-${{ hashFiles('out') }}
 
-
-      - name: Scan Here?
-        run: |
-          echo "Scan here?!?!"
 
   # publish-sonatype:
   #   # when in master repo: all commits to main branch and all additional tags
