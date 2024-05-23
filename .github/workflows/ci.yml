@@ -284,12 +284,12 @@ jobs:
           stage: ${{ env.SonatypeStage }}
           target: ${{ env.SonatypeScanTarget }} ${{ env.ExcludeDirectory }}
 
-      # - name: Upload OUT dir
-      #   if: always()
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: OUT Directory
-      #     path: /home/runner/work/morphir-scala/morphir-scala/out/
+      - name: Upload OUT dir
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: OUT Directory
+          path: /home/runner/work/morphir-scala/morphir-scala/out/
         
 
   ci:
