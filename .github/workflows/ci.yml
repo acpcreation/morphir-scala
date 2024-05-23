@@ -261,14 +261,7 @@ jobs:
       # - run: ./mill -i -j 0 io.kipp.mill.ci.release.ReleaseModule/publishAll
       - run: ./mill -i -j 0 __.publishArtifacts 
       - run: |
-          ls -R > 
-          
-      - name: Upload OUT dir
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: OUT Directory
-          path: ./out/
+          ls -R
 
       - name: Sonatype Lifecycle SCA Scan
         uses: sonatype-nexus-community/iq-github-action@master
@@ -279,6 +272,13 @@ jobs:
           applicationId: ${{ env.SonatypeAppId }}
           stage: ${{ env.SonatypeStage }}
           target: ${{ env.SonatypeScanTarget }} ${{ env.ExcludeDirectory }}
+
+      - name: Upload OUT dir
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: OUT Directory
+          path: /home/runner/work/morphir-scala/morphir-scala/out/
         
 
   ci:
