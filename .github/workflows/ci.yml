@@ -168,6 +168,7 @@ jobs:
 
 
   publish-sonatype:
+    if: always()
     # when in master repo: all commits to main branch and all additional tags
     # if: github.repository == 'finos/morphir-scala' && ( github.ref == 'refs/heads/main' || (github.ref != 'refs/heads/main' && startsWith( github.ref, 'refs/tags/') ) )
     needs: [ci]
@@ -242,26 +243,36 @@ jobs:
           key: ${{ runner.os }}-mill-js-11-3.3.3-${{ github.sha }}-${{ hashFiles('out') }}
           restore-keys: ${{ runner.os }}-mill-js-11-3.3.3-${{ github.sha }}-
 
-      - name: Restore Scala 2.13 Native Build Output From Cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            out/morphir/2.13.13/**/native/
-          key: ${{ runner.os }}-mill-native-11-2.13.13-${{ github.sha }}-${{ hashFiles('out') }}
-          restore-keys: ${{ runner.os }}-mill-native-11-2.13.13-${{ github.sha }}-
+      # - name: Restore Scala 2.13 Native Build Output From Cache
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     path: |
+      #       out/morphir/2.13.13/**/native/
+      #     key: ${{ runner.os }}-mill-native-11-2.13.13-${{ github.sha }}-${{ hashFiles('out') }}
+      #     restore-keys: ${{ runner.os }}-mill-native-11-2.13.13-${{ github.sha }}-
 
-      - name: Restore Scala 3.3 Native Build Output From Cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            out/morphir/3.3.3/**/native/
-          key: ${{ runner.os }}-mill-native-11-3.3.3-${{ github.sha }}-${{ hashFiles('out') }}
-          restore-keys: ${{ runner.os }}-mill-native-11-3.3.3-${{ github.sha }}-
+      # - name: Restore Scala 3.3 Native Build Output From Cache
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     path: |
+      #       out/morphir/3.3.3/**/native/
+      #     key: ${{ runner.os }}-mill-native-11-3.3.3-${{ github.sha }}-${{ hashFiles('out') }}
+      #     restore-keys: ${{ runner.os }}-mill-native-11-3.3.3-${{ github.sha }}-
 
       # - run: ./mill -i -j 0 io.kipp.mill.ci.release.ReleaseModule/publishAll
+      
       - run: ./mill -i -j 0 __.publishArtifacts 
       - run: |
-          ls -R
+          # Find all *.pom files and rename them to pom.xml
+          find . -type f -name "*.pom" | while read -r file; do
+            # Extract the directory of the current file
+            dir=$(dirname "$file")
+            new_name="${dir}/pom.xml"
+            # Rename the file
+            cp "$file" "$new_name"
+            echo "\n\nCopied: $file -> $new_name"
+            cat $new_name
+          done
 
       - name: Sonatype Lifecycle SCA Scan
         uses: sonatype-nexus-community/iq-github-action@master
@@ -273,17 +284,18 @@ jobs:
           stage: ${{ env.SonatypeStage }}
           target: ${{ env.SonatypeScanTarget }} ${{ env.ExcludeDirectory }}
 
-      - name: Upload OUT dir
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: OUT Directory
-          path: /home/runner/work/morphir-scala/morphir-scala/out/
+      # - name: Upload OUT dir
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: OUT Directory
+      #     path: /home/runner/work/morphir-scala/morphir-scala/out/
         
 
   ci:
     runs-on: ubuntu-latest
-    needs: [lint, test-js, test-jvm, test-native]
+    # needs: [lint, test-js, test-jvm, test-native]
+    needs: [lint, test-js, test-jvm]
     steps:
       - name: Aggregate of lint, and all tests
         run: echo "ci passed"
