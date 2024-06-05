@@ -103,10 +103,6 @@ jobs:
       - name: Cache scala dependencies
         uses: coursier/cache-action@v6
 
-      - name: LS BEFORE
-        run: |
-          ls -LRa .
-
       - name: MILL
         run: |
           ./mill resolve __.ivyDepsTree
@@ -139,7 +135,7 @@ jobs:
 
       - name: LS AFTER
         run: |
-          ls -LRa .
+          ls -LRa out/
 
           
           
