@@ -164,6 +164,10 @@ jobs:
             out/morphir/build/
           key: ${{ runner.os }}-mill-jvm-${{matrix.java}}-${{ matrix.scala }}-${{ github.sha }}-${{ hashFiles('out') }}
 
+      - name: tmp-run
+        run: |
+          cat **/resolvedIvyDeps.json
+          
   # test-native:
   #   runs-on: ubuntu-latest
   #   timeout-minutes: 30
@@ -229,7 +233,7 @@ jobs:
       SonatypeUrl: 'https://finos.sonatype.app/platform/'
       SonatypeAppId: morphir-scala
       SonatypeStage: build
-      SonatypeScanTarget: '${{ github.CACHE_BASE }}'
+      SonatypeScanTarget: '/'
       ExcludeDirectory: " -X "
 
       # ExcludeDirectory: " -X -D dirExcludes='**/website/, **/docs/, **/.*'"
