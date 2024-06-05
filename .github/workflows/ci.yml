@@ -103,10 +103,10 @@ jobs:
       - name: Cache scala dependencies
         uses: coursier/cache-action@v6
 
-      - name: MILL
-        run: |
-          ./mill resolve __.ivyDepsTree
-          ./mill resolve morphir[${{ matrix.scala }}].jvm.ivyDepsTree
+      # - name: MILL
+      #   run: |
+      #     ./mill resolve __.ivyDepsTree
+      #     ./mill resolve morphir[${{ matrix.scala }}].jvm.ivyDepsTree
 
       - name: Setup proto and moon toolchains
         uses: moonrepo/setup-toolchain@v0.3.1
@@ -135,7 +135,7 @@ jobs:
 
       - name: LS AFTER
         run: |
-          ls -LRa out/
+          ls -LRa ./out
 
           
           
