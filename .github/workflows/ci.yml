@@ -110,7 +110,7 @@ jobs:
       - name: MILL
         run: |
           ./mill resolve __.ivyDepsTree
-          ./mill resolve morphir.[${{ matrix.scala }}].jvm.ivyDepsTree
+          ./mill resolve morphir[${{ matrix.scala }}].jvm.ivyDepsTree
 
       - name: Setup proto and moon toolchains
         uses: moonrepo/setup-toolchain@v0.3.1
