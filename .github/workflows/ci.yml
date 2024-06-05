@@ -103,46 +103,18 @@ jobs:
       - name: Cache scala dependencies
         uses: coursier/cache-action@v6
 
+      - name: LS BEFORE
+        run: |
+          ls -LRa .
+
+      - name: MILL
+        run: |
+          ./mill resolve __.ivyDepsTree
+
       - name: Setup proto and moon toolchains
         uses: moonrepo/setup-toolchain@v0.3.1
         with:
           auto-install: true
-
-      # ///////////////////////////
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJson(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
-
-      - name: Show default environment variables
-        run: |
-          echo "The job_id is: $GITHUB_JOB"   # reference the default environment variables
-          echo "The id of this action is: $GITHUB_ACTION"   # reference the default environment variables
-          echo "The run id is: $GITHUB_RUN_ID"
-          echo "The GitHub Actor's username is: $GITHUB_ACTOR"
-          echo "GitHub SHA: $GITHUB_SHA"
-
-      # //////////////////////////
             
       - name: Install tooling
         run: |
@@ -164,9 +136,11 @@ jobs:
             out/morphir/build/
           key: ${{ runner.os }}-mill-jvm-${{matrix.java}}-${{ matrix.scala }}-${{ github.sha }}-${{ hashFiles('out') }}
 
-      - name: tmp-run
+      - name: LS AFTER
         run: |
-          cat **/resolvedIvyDeps.json
+          ls -LRa .
+
+          
           
   # test-native:
   #   runs-on: ubuntu-latest
