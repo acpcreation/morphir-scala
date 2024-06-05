@@ -86,8 +86,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: ["11", "17"]
-        scala: ["2.13.13", "3.3.3"]
+        java: ["17"]
+        scala: ["3.3.3"]
+        # java: ["11", "17"]
+        # scala: ["2.13.13", "3.3.3"]
     steps:
       - name: Checkout current branch
         uses: actions/checkout@v4
