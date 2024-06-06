@@ -3,7 +3,12 @@ name: CI
 env:
   JDK_JAVA_OPTIONS: -XX:+PrintCommandLineFlags -Xss10M # JDK_JAVA_OPTIONS is _the_ env. variable to use for modern Java
   JVM_OPTS: -XX:+PrintCommandLineFlags -Xss10M # for Java 8 only (sadly, it is not modern enough for JDK_JAVA_OPTIONS)
-
+  SonatypeUrl: 'https://finos.sonatype.app/platform/'
+  SonatypeAppId: morphir-scala
+  SonatypeStage: build
+  SonatypeScanTarget: '/'
+  ExcludeDirectory: " -X "
+  
 on:
   pull_request:
   push:
@@ -134,6 +139,15 @@ jobs:
           key: ${{ runner.os }}-mill-jvm-${{matrix.java}}-${{ matrix.scala }}-${{ github.sha }}-${{ hashFiles('out') }}
 
       - run: ./mill show __.resolvedIvyDeps
+      - name: Sonatype Lifecycle SCA Scan
+        uses: sonatype-nexus-community/iq-github-action@master
+        with:
+          username: ${{ secrets.sonatype_user }}
+          password: ${{ secrets.sonatype_password }}
+          serverUrl: ${{ env.SonatypeUrl }}
+          applicationId: ${{ env.SonatypeAppId }}
+          stage: ${{ env.SonatypeStage }}
+          target: ${{ env.SonatypeScanTarget }} ${{ env.ExcludeDirectory }}
           
           
   # test-native:
@@ -286,15 +300,15 @@ jobs:
       #       cat $new_name
       #     done
 
-      - name: Sonatype Lifecycle SCA Scan
-        uses: sonatype-nexus-community/iq-github-action@master
-        with:
-          username: ${{ secrets.sonatype_user }}
-          password: ${{ secrets.sonatype_password }}
-          serverUrl: ${{ env.SonatypeUrl }}
-          applicationId: ${{ env.SonatypeAppId }}
-          stage: ${{ env.SonatypeStage }}
-          target: ${{ env.SonatypeScanTarget }} ${{ env.ExcludeDirectory }}
+      # - name: Sonatype Lifecycle SCA Scan
+      #   uses: sonatype-nexus-community/iq-github-action@master
+      #   with:
+      #     username: ${{ secrets.sonatype_user }}
+      #     password: ${{ secrets.sonatype_password }}
+      #     serverUrl: ${{ env.SonatypeUrl }}
+      #     applicationId: ${{ env.SonatypeAppId }}
+      #     stage: ${{ env.SonatypeStage }}
+      #     target: ${{ env.SonatypeScanTarget }} ${{ env.ExcludeDirectory }}
 
       # - name: Upload OUT dir
       #   if: always()
