@@ -6,8 +6,8 @@ env:
   SonatypeUrl: 'https://finos.sonatype.app/platform/'
   SonatypeAppId: morphir-scala
   SonatypeStage: build
-  SonatypeScanTarget: '/'
-  ExcludeDirectory: " -X "
+  SonatypeScanTarget: '/home/runner/.cache/coursier/'
+  ExcludeDirectory: " -X -D dirExcludes=''"
   
 on:
   pull_request:
