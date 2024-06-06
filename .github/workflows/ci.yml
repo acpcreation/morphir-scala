@@ -133,10 +133,7 @@ jobs:
             out/morphir/build/
           key: ${{ runner.os }}-mill-jvm-${{matrix.java}}-${{ matrix.scala }}-${{ github.sha }}-${{ hashFiles('out') }}
 
-      - name: LS AFTER
-        run: |
-          ls -LRa ./out
-
+      - run: ./mill show __.resolvedIvyDeps
           
           
   # test-native:
