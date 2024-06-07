@@ -146,10 +146,10 @@ jobs:
       - name: Link to Cache
         run: |
           pwd
-          ls -al /home/runner/
+          ls -aL /home/runner/
           ln -s /home/runner/.cache cache
 
-      - run: ls -al
+      - run: ls -L
       
         
       - name: Sonatype Lifecycle SCA Scan
