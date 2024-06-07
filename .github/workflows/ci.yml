@@ -146,7 +146,8 @@ jobs:
       - name: Link to Cache
         run: |
           pwd
-          cp - /home/runner/.cache/ cache/
+          mkdir cache/
+          cp -r /home/runner/.cache/ cache/
           ls cache/
           
       # ln -s /home/runner/.cache cache
