@@ -139,14 +139,15 @@ jobs:
             out/morphir/build/
           key: ${{ runner.os }}-mill-jvm-${{matrix.java}}-${{ matrix.scala }}-${{ github.sha }}-${{ hashFiles('out') }}
 
-      - run: ./mill show __.resolvedIvyDeps
-      
-      
+      # - run: ./mill show __.resolvedIvyDeps
       # - name: Cache scala dependencies
       #   uses: coursier/cache-action@v6
 
       - name: Link to Cache
-        run: ln -s /home/runner/.cache/ /home/runner/work/morphir-scala/morphir-scala/cache/
+        run: |
+          pwd
+          ls -l
+          ln -s /home/runner/.cache/ /home/runner/work/morphir-scala/morphir-scala/cache/
         
       - name: Sonatype Lifecycle SCA Scan
         uses: sonatype-nexus-community/iq-github-action@master
