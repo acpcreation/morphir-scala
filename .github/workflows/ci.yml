@@ -5,8 +5,8 @@ env:
   JVM_OPTS: -XX:+PrintCommandLineFlags -Xss10M # for Java 8 only (sadly, it is not modern enough for JDK_JAVA_OPTIONS)
   SonatypeUrl: 'https://finos.sonatype.app/platform/'
   SonatypeAppId: morphir-scala
-  SonatypeStage: 'build -X ' 
-  SonatypeScanTarget: '.'
+  SonatypeStage: 'build' 
+  SonatypeScanTarget: '*.jar'
   ExcludeDirectory: " -D dirExcludes='**/out/ **/node_modules/' "
   # -D dirExcludes=''
   
@@ -147,7 +147,7 @@ jobs:
         run: |
           pwd
           mkdir cache/
-          cp -r /home/runner/.cache/ cache/
+          cp -r /home/runner/.cache/coursier/ cache/
           ls cache/
           
       # ln -s /home/runner/.cache cache
