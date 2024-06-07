@@ -7,8 +7,8 @@ env:
   SonatypeAppId: morphir-scala
   SonatypeStage: 'build' 
   SonatypeScanTarget: 'cache/'
-  ExcludeDirectory: " -D dirExcludes='**/out/ **/node_modules/' fileExcludes='**/*.class' "
-  # -D dirExcludes=''
+  ExcludeDirectory: " -D fileExcludes='*.class' "
+  # -D dirExcludes='**/out/ **/node_modules/' 
   
 on:
   pull_request:
