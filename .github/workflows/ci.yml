@@ -6,7 +6,7 @@ env:
   SonatypeUrl: 'https://finos.sonatype.app/platform/'
   SonatypeAppId: morphir-scala
   SonatypeStage: 'build' 
-  SonatypeScanTarget: '*.jar'
+  SonatypeScanTarget: '**/*.jar'
   ExcludeDirectory: " -D dirExcludes='**/out/ **/node_modules/' "
   # -D dirExcludes=''
   
