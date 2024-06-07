@@ -125,9 +125,9 @@ jobs:
       - name: Make Morphir IR
         run: |
           ./build.sh run :morphir-elm-build
-      # - name: Run JVM tests
-      #   run: |
-      #     ./build.sh --scala-version ${{matrix.scala}} test-jvm
+      - name: Run JVM tests
+        run: |
+          ./build.sh --scala-version ${{matrix.scala}} test-jvm
 
       - name: Cache JVM build output
         # when in master repo: all commits to main branch and all additional tags
@@ -148,6 +148,9 @@ jobs:
           pwd
           ls -al /home/runner/
           ln -s /home/runner/.cache cache
+
+      - run: ls -al
+      
         
       - name: Sonatype Lifecycle SCA Scan
         uses: sonatype-nexus-community/iq-github-action@master
