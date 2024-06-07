@@ -146,16 +146,15 @@ jobs:
       - name: Link to Cache
         run: |
           pwd
-          ls -aL /home/runner/
-          mkdir cache/
-          cp /home/runner/.cache/ cache/
+          cp - /home/runner/.cache/ cache/
+          ls cache/
+          
       # ln -s /home/runner/.cache cache
-
+      # ls -aL /home/runner/
       - run: |
           pwd
-          ls -L
+          ls -al
       
-        
       - name: Sonatype Lifecycle SCA Scan
         uses: sonatype-nexus-community/iq-github-action@master
         with:
