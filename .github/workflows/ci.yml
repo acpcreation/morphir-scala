@@ -145,13 +145,12 @@ jobs:
       # - name: Cache scala dependencies
       #   uses: coursier/cache-action@v6
 
-      # - name: List Coursier cache contents
-      #   run: ls -R ~/.cache/coursier
+      - name: Link to Cache
+        run: ln -s /home/runner/.cache/ /home/runner/work/morphir-scala/morphir-scala/cache/
         
       - name: Sonatype Lifecycle SCA Scan
         uses: sonatype-nexus-community/iq-github-action@master
         with:
-          options: -v '/home/runner/.cache':'/github/workspace/cache/'
           username: ${{ secrets.sonatype_user }}
           password: ${{ secrets.sonatype_password }}
           serverUrl: ${{ env.SonatypeUrl }}
