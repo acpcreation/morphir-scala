@@ -147,7 +147,9 @@ jobs:
         run: |
           pwd
           ls -aL /home/runner/
-          ln -s /home/runner/.cache cache
+          mkdir cache/
+          cp /home/runner/.cache/ cache/
+      # ln -s /home/runner/.cache cache
 
       - run: |
           pwd
