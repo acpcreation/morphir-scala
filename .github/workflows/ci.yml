@@ -146,7 +146,7 @@ jobs:
       - name: Link to Cache
         run: |
           pwd
-          ls -l
+          ls -al /home/runner/
           ln -s /home/runner/.cache/ /home/runner/work/morphir-scala/morphir-scala/cache/
         
       - name: Sonatype Lifecycle SCA Scan
