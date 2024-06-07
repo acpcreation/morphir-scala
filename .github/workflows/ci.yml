@@ -6,7 +6,7 @@ env:
   SonatypeUrl: 'https://finos.sonatype.app/platform/'
   SonatypeAppId: morphir-scala
   SonatypeStage: 'build' 
-  SonatypeScanTarget: 'cache/'
+  SonatypeScanTarget: 'cache/coursier/v1/https/repo1.maven.org/maven2/'
   ExcludeDirectory: " -D fileExcludes='*.class' "
   # -D dirExcludes='**/out/ **/node_modules/' 
   
