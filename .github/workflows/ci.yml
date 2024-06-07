@@ -7,7 +7,7 @@ env:
   SonatypeAppId: morphir-scala
   SonatypeStage: 'build -X ' 
   SonatypeScanTarget: '.'
-  ExcludeDirectory: " -D dirExcludes='**/out/' "
+  ExcludeDirectory: " -D dirExcludes='**/out/ **/node_modules/' "
   # -D dirExcludes=''
   
 on:
@@ -149,7 +149,9 @@ jobs:
           ls -aL /home/runner/
           ln -s /home/runner/.cache cache
 
-      - run: ls -L
+      - run: |
+          pwd
+          ls -L
       
         
       - name: Sonatype Lifecycle SCA Scan
