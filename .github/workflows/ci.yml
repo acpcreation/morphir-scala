@@ -147,7 +147,7 @@ jobs:
         run: |
           pwd
           ls -al /home/runner/
-          ln -s /home/runner/.cache/ /home/runner/work/morphir-scala/morphir-scala/cache/
+          ln -s /home/runner/.cache cache
         
       - name: Sonatype Lifecycle SCA Scan
         uses: sonatype-nexus-community/iq-github-action@master
