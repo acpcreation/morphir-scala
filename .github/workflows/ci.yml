@@ -139,22 +139,25 @@ jobs:
             out/morphir/build/
           key: ${{ runner.os }}-mill-jvm-${{matrix.java}}-${{ matrix.scala }}-${{ github.sha }}-${{ hashFiles('out') }}
 
-      - run: ./mill show __.resolvedIvyDeps
-      # - name: Cache scala dependencies
-      #   uses: coursier/cache-action@v6
+      # - run: ./mill show __.resolvedIvyDeps > resolvedIvyDeps.json
 
-      - name: Copy Cache to Reach Scan
+      - name: Copy Cache for SCA Scan
         run: |
           pwd
           mkdir cache/
           cp -r /home/runner/.cache/coursier/ cache/
           ls cache/
+
+      - name: Save resolvedIvyDeps.json
+        run: |
+          ./mill show __.resolvedIvyDeps > cache/resolvedIvyDeps.json
+          ls cache/
           
-      # ln -s /home/runner/.cache cache
-      # ls -aL /home/runner/
-      # - run: |
-      #     pwd
-      #     ls -al
+      - name: Upload Dependency Cache
+        uses: actions/upload-artifact@v4
+        with:
+          name: Dependency Cache
+          path: cache/
       
       - name: Sonatype Lifecycle SCA Scan
         uses: sonatype-nexus-community/iq-github-action@master
