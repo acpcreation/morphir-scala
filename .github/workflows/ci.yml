@@ -4,7 +4,7 @@ env:
   JDK_JAVA_OPTIONS: -XX:+PrintCommandLineFlags -Xss10M # JDK_JAVA_OPTIONS is _the_ env. variable to use for modern Java
   JVM_OPTS: -XX:+PrintCommandLineFlags -Xss10M # for Java 8 only (sadly, it is not modern enough for JDK_JAVA_OPTIONS)
   SonatypeUrl: 'https://finos.sonatype.app/platform/'
-  SonatypeAppId: morphir-test
+  SonatypeAppId: morphir-scala
   SonatypeStage: 'build' 
   SonatypeScanTarget: 'depCache/coursier/' # depCache/coursier/v1/https/repo1.maven.org/maven2/
   ExcludeDirectory: " -D fileExcludes='*.class' "
