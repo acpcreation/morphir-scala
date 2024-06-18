@@ -139,11 +139,11 @@ jobs:
             out/morphir/build/
           key: ${{ runner.os }}-mill-jvm-${{matrix.java}}-${{ matrix.scala }}-${{ github.sha }}-${{ hashFiles('out') }}
 
-      # - run: ./mill show __.resolvedIvyDeps
+      - run: ./mill show __.resolvedIvyDeps
       # - name: Cache scala dependencies
       #   uses: coursier/cache-action@v6
 
-      - name: Link to Cache
+      - name: Copy Cache to Reach Scan
         run: |
           pwd
           mkdir cache/
@@ -152,9 +152,9 @@ jobs:
           
       # ln -s /home/runner/.cache cache
       # ls -aL /home/runner/
-      - run: |
-          pwd
-          ls -al
+      # - run: |
+      #     pwd
+      #     ls -al
       
       - name: Sonatype Lifecycle SCA Scan
         uses: sonatype-nexus-community/iq-github-action@master
