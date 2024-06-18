@@ -92,8 +92,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: ["11", "17"]
-        scala: ["2.13.13", "3.3.3"]
+        java: ["11"]
+        scala: ["2.13.13"]
+        # java: ["11", "17"]
+        # scala: ["2.13.13", "3.3.3"]
     steps:
       - name: Checkout current branch
         uses: actions/checkout@v4
@@ -189,12 +191,12 @@ jobs:
         
     - name: Copy Cache for SCA Scan
       run: |
-        mkdir depCache/
-        ls -al /home/runner/.cache/
+        mkdir depCache/ #Create local copy of cache for Sonatype Scanner
+        ls -al /home/runner/.cache/coursier/ 
         cp -r /home/runner/.cache/coursier/ depCache/
 
-    - name: Save resolvedIvyDeps.json
-      run: ./mill show __.resolvedIvyDeps > depCache/resolvedIvyDeps.json
+    # - name: Save resolvedIvyDeps.json
+    #   run: ./mill show __.resolvedIvyDeps > depCache/resolvedIvyDeps.json
         
     - name: Upload Dependency Cache (optional)
       uses: actions/upload-artifact@v4
