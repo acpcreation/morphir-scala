@@ -166,18 +166,10 @@ jobs:
           path: out/
           key: ${{ runner.os }}-*
 
-      - name: Copy Cache for SCA Scan
-        run: |
-          mkdir depCache/ #Create local copy of cache for Sonatype Scanner
-          cp -r /home/runner/.cache/coursier/ depCache/
-      # - name: Save resolvedIvyDeps.json
-      #   run: ./mill show __.resolvedIvyDeps > depCache/resolvedIvyDeps.json
-
-      # - name: Upload Dependency Cache (optional)
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: Dependency Cache
-      #     path: depCache/
+      # - name: Copy Cache for SCA Scan
+      #   run: |
+      #     mkdir depCache/ #Create local copy of cache for Sonatype Scanner
+      #     cp -r /home/runner/.cache/coursier/ depCache/
 
       - name: Sonatype Lifecycle SCA Scan
         id: evaluate
