@@ -193,7 +193,7 @@ jobs:
           scan-id: ${{ steps.evaluate.outputs.scan-id }}
           sbom-standard: spdx
           sbom-version: 2.3
-          artifact-name: ${{ env.SonatypeAppId }}
+          artifact-name: ${{ env.SonatypeAppId }}-${{ env.SonatypeStage }}-sbom
 
       # - name: Upload Sonatype SBOM (SPDX)
       #   if: always()
