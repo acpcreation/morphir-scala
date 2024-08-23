@@ -205,7 +205,7 @@ jobs:
 
   publish:
     # when in master repo: all commits to main branch and all additional tags
-    if: github.repository == 'finos/morphir-scala' && ( github.ref == 'refs/heads/main' || (github.ref != 'refs/heads/main' && startsWith( github.ref, 'refs/tags/') ) )
+    # if: github.repository == 'finos/morphir-scala' && ( github.ref == 'refs/heads/main' || (github.ref != 'refs/heads/main' && startsWith( github.ref, 'refs/tags/') ) )
     needs: [ci]
 
     runs-on: ubuntu-latest
@@ -271,6 +271,32 @@ jobs:
         run: .github/scripts/wrap-gpg.sh
       - name: Release
         run: ./mill -i ci.publishSonatype __.publishArtifacts
+
+     ############### SONATYPE SCAN ###############
+      - name: Sonatype Lifecycle SCA Scan
+        id: evaluate
+        uses: sonatype/actions/evaluate@v1
+        with:
+          iq-server-url: ${{ env.SonatypeUrl }}
+          username: ${{ secrets.SONATYPE_USER }}
+          password: ${{ secrets.SONATYPE_PASSWORD }}
+          application-id: ${{ env.SonatypeAppId }}
+          stage: release
+          scan-targets: ${{ env.SonatypeScanTarget }} ${{ env.ExcludeDirectory }}
+
+      - name: Retrieve Sonatype SBOM (SPDX)
+        uses: sonatype/actions/fetch-sbom@v1
+        if: ( success() || failure() ) && steps.evaluate.outputs.scan-id
+        with:
+          iq-server-url: ${{ env.SonatypeUrl }}
+          username: ${{ secrets.SONATYPE_USER }}
+          password: ${{ secrets.SONATYPE_PASSWORD }}
+          application-id: ${{ env.SonatypeAppId }}
+          scan-id: ${{ steps.evaluate.outputs.scan-id }}
+          sbom-standard: spdx
+          sbom-version: 2.3
+          artifact-name: ${{ env.SonatypeAppId }}-sbom (release)
+      #####################################
 
   ci:
     runs-on: ubuntu-latest    
