@@ -166,11 +166,6 @@ jobs:
           path: out/
           key: ${{ runner.os }}-*
 
-      - name: Copy Cache for SCA Scan
-        run: |
-          mkdir depCache/ #Create local copy of cache for Sonatype Scanner
-          cp -r /home/runner/.cache/coursier/ depCache/
-
       - name: Sonatype Lifecycle SCA Scan
         id: evaluate
         uses: sonatype/actions/evaluate@v1
@@ -195,12 +190,6 @@ jobs:
           sbom-version: 2.3
           artifact-name: ${{ env.SonatypeAppId }}-${{ env.SonatypeStage }}-sbom
 
-      # - name: Upload Sonatype SBOM (SPDX)
-      #   if: always()
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: ${{ env.SonatypeAppId }} Sonatype SBOM (SPDX)
-      #     path: reports/
   #############################################
 
   publish:
